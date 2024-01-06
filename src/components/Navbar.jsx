@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import Container from './container';
 import { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 function Navbar() {
+  const { authenticated } = useAuth();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [offcavnas, setOffcanvas] = useState(false);
@@ -69,7 +72,7 @@ function Navbar() {
             </button>
           </div>
           <div
-            className={`lg:w-7/12 w-full bg-gradient-to-b from-gray-600 to-gray-900 lg:bg-none fixed lg:static top-0 h-full lg:h-auto p-10 lg:p-0 transition-all ${
+            className={`lg:w-6/12 z-50 w-full bg-gradient-to-b from-gray-600 to-gray-900 lg:bg-none fixed lg:static top-0 h-full lg:h-auto p-10 lg:p-0 transition-all ${
               offcavnas ? 'left-0' : '-left-full'
             }`}
           >
@@ -95,6 +98,28 @@ function Navbar() {
               </svg>
             </button>
             <ul className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-14">
+              <li className="block lg:hidden">
+                {/* <button
+                  type="button"
+                  className="px-4 py-2 bg-gray-600 border border-gray-300 rounded-sm hover:bg-gray-300 hover:text-gray-600"
+                >
+                  Login
+                </button> */}
+                <div className="space-x-4">
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-gray-600 border border-gray-300 rounded-sm hover:bg-gray-300 hover:text-gray-600"
+                  >
+                    Profile
+                  </button>
+                  <button
+                    type="button"
+                    className="px-4 py-2 bg-gray-600 border text-red-300 border-red-300 rounded-sm hover:bg-red-300 hover:text-red-600"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </li>
               <li>
                 <Link to="/" className="hover:underline">
                   UI Design
@@ -135,7 +160,7 @@ function Navbar() {
                   </svg>
                 </Link>
                 {isDropdownOpen && (
-                  <ul className='absolute w-["200px"] mt-4 bg-gray-800 rounded shadow-2xl'>
+                  <ul className='absolute w-["200px"] mt-4 bg-gray-800 rounded shadow-2xl z-50'>
                     {dropdownList.map((item, index) => (
                       <li key={index}>
                         <Link
@@ -181,6 +206,40 @@ function Navbar() {
               className="bg-gray-700 py-3 px-6 w-full lg:rounded-full rounded-lg bg-search pl-12 focus:outline-none focus:ring-2 focus:ring-gray-400"
               placeholder="Search ..."
             />
+          </div>
+          <div className="w-1/12 hidden justify-end lg:flex">
+            {authenticated ? (
+              <button
+                type="button"
+                className="rounded-full p-2 bg-gray-400 hover:scale-105"
+              >
+                <svg
+                  width="24"
+                  height="24"
+                  aria-hidden="true"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  ></path>
+                </svg>
+              </button>
+            ) : (
+              <Link to="/login">
+                <button
+                  type="button"
+                  className="px-4 py-2 bg-gray-600 border border-gray-300 rounded-sm hover:bg-gray-300 hover:text-gray-600"
+                >
+                  Login
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </Container>
